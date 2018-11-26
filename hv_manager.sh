@@ -17,20 +17,14 @@
 # Pass arguments of "-h" or "--help" to be provided with a fuller explanation of this script.
 #
 # Calculates using all found .pof files.
-# Reads a single .ref file in the current folder for the hypervolume reference points.
-# All .pof files provided must be of the same problem type, and so must use the same reference points.
+# Reads a single .ref file in the current folder for the hypervolume reference point.
+# All .pof files provided must be of the same problem type, and so must use the same reference point.
 # Handles all whitespace (newlines included) and wildcard characters in filenames.
 
 # Enter the path to your hv executable.
 hv_exec_path="/home/m/repos/hv-2.0rc2-src/hv"
-if (( ${#hv_exec_path} == 0 )); then
-	printf "\nError: Hypervolume executable path not provided, please edit the script's first line to include it.\n\n"
-	exit 1
-fi
-export hv_exec_path
 
 version="1.0"
-
 num_parallel_jobs=""
 stepping=1
 IFS=' ' max_depth=($(echo "-maxdepth 1"))
@@ -76,7 +70,7 @@ while (( "$#" )); do
 			printf "This program manages the hypervolume calculations in parallel of many Pareto fronts using the hypervolume calculator by Fonseca et al., available at <http://lopez-ibanez.eu/hypervolume>.\n"
 			printf "Run this program from within the directory of the Pareto front files you want to process, with extension '.pof'.\n"
 			printf "The path to your hypervolume executable must be provided on the first line of this script.\n"
-			printf "A single file containing the hypervolume reference points must be present in the current directory, with extension '.ref'.\n"
+			printf "A single file containing the hypervolume reference point must be present in the current directory, with extension '.ref'.\n"
 			printf "For each processed '.pof' file, a '.hv' file will be written containing the calculated hypervolume.\n"
 			printf "Also writes a '.ohv' file in the current directory containing the number of valid files (i.e., number of convergent fronts), the mean hypervolume, and the standard deviation of hypervolume of the valid files.\n"
 			printf "View the 'examples' folder in the repository for a sample of the required files and structure.\n"
@@ -98,6 +92,19 @@ while (( "$#" )); do
 			;;
 	esac
 done
+
+if (( ${#hv_exec_path} == 0 )); then
+	printf "\nError: Hypervolume executable path not provided, please edit the script's first line to include it.\n"
+	printf "If you do not have an executable, please visit <http://lopez-ibanez.eu/hypervolume>.\n\n"
+	exit 1
+fi
+export hv_exec_path
+
+if ! [ -x "$(command -v parallel)" ]; then
+	printf "\nError: GNU Parallel is either not installed or is not listed on your PATH.\n"
+	printf "Please visit <https://www.gnu.org/software/parallel> for more information.\n\n"
+	exit 1
+fi
 
 if [ -z "$num_parallel_jobs" ]; then
 	num_parallel_jobs=$(parallel --number-of-cores)

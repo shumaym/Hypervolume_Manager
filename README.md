@@ -1,5 +1,5 @@
 # Hypervolume Manager
-This script manages the hypervolume indicator computation of multiple Pareto fronts in parallel, using the calculator by Fonseca et al., available at http://lopez-ibanez.eu/hypervolume
+This script manages the hypervolume indicator computation of multiple Pareto fronts in parallel, using the calculator by Fonseca et al. available at http://lopez-ibanez.eu/hypervolume
 
 
 Dependencies
@@ -14,7 +14,7 @@ Usage
 Run this script from within the folder of the ```.pof``` files that are to be processed, of which each contain a Pareto front.
 A single file with the extension ```.ref``` must be present in the current directory, containing the appropriate hypervolume reference points for the many-objective problem.
 For each ```.pof``` file found, a ```.hv``` file is written containing the calculated hypervolume.
-A ```.ohv``` file is also written at the end of execution, containing the number of valid, convergent ```.pof``` files (i.e., the number of files that contain solutions that dominate the provided reference points), the mean hypervolume, and the standard deviation of hypervolume of the valid files.
+A ```.ohv``` file is also written at the end of execution, containing the number of valid, convergent ```.pof``` files (i.e., the number of files that contain solutions that dominate the provided reference point), the mean hypervolume, and the standard deviation of hypervolume of the valid files.
 All filenames may contain any character other than the null character, ```\0```.
 
 Run with the following command:
