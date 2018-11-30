@@ -22,7 +22,7 @@
 # Handles all whitespace (newlines included) and wildcard characters in filenames.
 
 # Enter the path to your hv executable.
-hv_exec_path="/home/m/repos/hv-2.0rc2-src/hv"
+hv_exec_path=""
 
 version="1.0"
 num_parallel_jobs=""
@@ -198,6 +198,8 @@ fi
 	# Computes all hypervolumes in parallel
 	printf "\nCalculating all hypervolumes across %d processes.\n\n" $num_parallel_jobs
 	IFS=' ' read -a results <<< $(parallel --null --keep-order --jobs $num_parallel_jobs calcHV ::: "${files[@]}" :::+ $(seq 0 1 $(( num_files-1 ))))
+
+	printf "Gathering results...\n\n"
 
 	# Determines validity of each result
 	num_valid_files=0
